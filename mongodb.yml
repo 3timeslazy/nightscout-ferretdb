@@ -1,0 +1,7 @@
+version: '3.9'
+
+services:
+  database:
+    image: mongo:6.0
+    command: --quiet
+    

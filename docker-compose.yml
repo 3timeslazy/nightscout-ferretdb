@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  tests:
+    image: nightscout-docker-tests
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+    

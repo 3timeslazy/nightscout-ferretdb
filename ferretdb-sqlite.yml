@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  database:
+    image: ghcr.io/ferretdb/ferretdb:1.21.0
+    environment:
+      FERRETDB_HANDLER: sqlite
+      FERRETDB_LOG_LEVEL: error
+    volumes:
+      - ./volumes/sqlite/state:/state
