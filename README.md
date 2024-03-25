@@ -1,4 +1,4 @@
-# Nightscout Docker Tests
+# Nightscout && FerretDB
 
 Inspired by [Nightscout](https://github.com/nightscout/cgm-remote-monitor) and [FerretDB](https://github.com/FerretDB/FerretDB) I decided that it might be a good idea to combine those two and build an alternative solution for [this issue](https://github.com/nightscout/cgm-remote-monitor/issues/7649).
 
