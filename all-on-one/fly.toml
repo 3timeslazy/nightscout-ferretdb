@@ -1,0 +1,66 @@
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = '{YOUR_APP_NAME}'
+primary_region = '{YOUR_REGION}'
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  # ==========
+  # Nightscout
+  # ==========
+  ALARM_LOW="off"
+  ALARM_TIMEAGO_URGENT="off"
+  ALARM_TYPES="predict"
+  ALARM_TIMEAGO_WARN="off"
+  ALARM_URGENT_HIGH="off"
+  ALARM_URGENT_LOW="off"
+
+  BG_HIGH="20"
+  BG_LOW="3"
+  BG_TARGET_BOTTOM="5"
+  BG_TARGET_TOP="20"
+  BOLUS_RENDER_OVER="1"
+
+  DISPLAY_UNITS="mmol/l"
+  NIGHT_MODE="off"
+  THEME="colors"
+  TIME_FORMAT="24"
+
+  CUSTOM_TITLE="Nightscout & FerretDB"
+  ENABLE="careportal basal dbsize rawbg iob maker cob bwp cage iage sage boluscalc pushover treatmentnotify loop pump profile food openaps bage alexa override speech cors"
+  SHOW_PLUGINS="careportal dbsize"
+
+  # API_SECRET has to be a secret and set with `fly secrets set ...`
+
+  # Use localhost because FerretDB is a process inside the container. 
+  # 
+  # Should not be accessible from outside, because SQLite has no authentication.
+  MONGODB_URI="mongodb://localhost:27017/nightscout"
+
+  # ========
+  # FerretDB
+  # ========
+  FERRETDB_HANDLER = "sqlite"
+  FERRETDB_LOG_LEVEL = "error"
+
+[http_service]
+  internal_port = 1337
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[mounts]
+  source = "ferretdb_sqlite"
+
+  # This value has to be synchronised with the Dockerfile.
+  destination = "/nightscout-ferretdb/data/state"
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
